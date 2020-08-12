@@ -16,8 +16,8 @@ tableplus = 'com.tinyapp.TablePlus'
 vscode = 'com.microsoft.VSCode'
 
 -- Re-load Hammerspoon config when file is modified
-hs.loadSpoon('ReloadConfiguration')
-spoon.ReloadConfiguration:start()
+hs.loadSpoon('BetterReloadConfiguration')
+spoon.BetterReloadConfiguration:start()
 hs.notify.new({title = 'Hammerspoon', informativeText = 'Config loaded'}):send()
 
 -- Common functions
