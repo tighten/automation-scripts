@@ -32,16 +32,20 @@ function has_value(tab, val)
 end
 
 function appIs(bundle)
-    return hs.application.frontmostApplication():bundleID() == bundle
+    return getBundleId() == bundle
 end
 
 function appIncludes(bundles)
-    return has_value(bundles, hs.application.frontmostApplication():bundleID())
+    return has_value(bundles, getBundleId())
+end
+
+function getBundleId()
+    return hs.application.frontmostApplication():bundleID();
 end
 
 -- Triggers
 
---- Mega-Menu
+--- Open Anything
 hs.urlevent.bind('openAnything', function()
     if appIncludes({vscode, tableplus, fork}) then
         hs.eventtap.keyStroke({'cmd'}, 'p')
@@ -60,10 +64,15 @@ hs.urlevent.bind('openAnything', function()
     elseif appIs(bear) then
         hs.eventtap.keyStroke({'cmd', 'shift'}, 'f')
     elseif true then
-        hs.notify.new({
-            title = 'Hammerspoon', 
-            informativeText = 'No config found for Mega-Menu app: ' .. hs.window:focusedWindow():application():bundleID()
-        }):send()
-        hs.pasteboard.setContents(hs.window:focusedWindow():application():bundleID())
+        bundleId = getBundleId();
+        hs.notify.new(
+            function() hs.pasteboard.setContents(bundleId) end,
+            {
+                title = 'Hammerspoon',
+                informativeText = 'Open Anything not set up',
+                actionButtonTitle = 'Copy Bundle ID',
+                alwaysShowAdditionalActions = true,
+                hasActionButton = true
+            }):send()
     end
 end)
